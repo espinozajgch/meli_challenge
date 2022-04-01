@@ -14,7 +14,6 @@ import java.util.Arrays;
 public class MutantValidator implements MutantValidatorService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MutantValidator.class);
 
-    private String value;
     private int size;
     private int halfArray;
     private int countMutantSequence = 0;
