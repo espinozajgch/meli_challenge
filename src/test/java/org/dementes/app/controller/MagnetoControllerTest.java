@@ -45,7 +45,7 @@ class MagnetoControllerTest {
 
     private MutantStatsDto mutantStats;
 
-    private String[] dna = new String[]{"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"};
+    private String[] dna;
 
     private DnaWrapper dnaWrapper;
 

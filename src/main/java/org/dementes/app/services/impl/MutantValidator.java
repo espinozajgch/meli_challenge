@@ -23,10 +23,8 @@ public class MutantValidator implements MutantValidatorService {
     @Autowired
     MutantStatsService mutantStatsService;
 
-    MutantStatsModel mutantStatsModel = new MutantStatsModel();
-
     /**
-     * @param dna :
+     * @param dna : array que contiene los nucleotidos del adn
      * @return boolean
      */
     @Override
