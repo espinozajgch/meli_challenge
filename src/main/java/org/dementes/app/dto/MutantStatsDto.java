@@ -43,8 +43,4 @@ public class MutantStatsDto {
         else
             return 0;
     }
-
-    public void setRatio(double ratio) {
-        this.ratio = ratio;
-    }
 }

@@ -37,7 +37,7 @@ public class MutantValidator implements MutantValidatorService {
         halfArray = (dna.length/2);
         countMutantSequence = 0;
 
-        printArray(dna);
+        Arrays.stream(dna).forEach(l -> System.out.println("["+l+"]"));
 
         if(size>0)
             for(int i=0;i<=size;i++){
@@ -90,15 +90,19 @@ public class MutantValidator implements MutantValidatorService {
 		LOGGER.debug("Fin del recorrido");
 		if(countMutantSequence>=maxMutantSequence) {
             LOGGER.info("Es Muntante por tener {} secuencias iguales", countMutantSequence);
+            MutantStatsModel mutantStatsModel = new MutantStatsModel();
             mutantStatsModel.setCountMutantDna(1);
             mutantStatsModel.setCountHumanDna(0);
+            mutantStatsService.save(mutantStatsModel);
             return true;
 
         }
 		else {
             LOGGER.info("No es Muntante, tiene {} secuencias iguales, minimo {}", countMutantSequence, maxMutantSequence);
+            MutantStatsModel mutantStatsModel = new MutantStatsModel();
             mutantStatsModel.setCountMutantDna(0);
             mutantStatsModel.setCountHumanDna(1);
+            mutantStatsService.save(mutantStatsModel);
             return false;
         }
     }
@@ -150,8 +154,4 @@ public class MutantValidator implements MutantValidatorService {
         return false;
     }
 
-    public void printArray(String dna[]){
-        Arrays.stream(dna).forEach(l -> System.out.println("["+l+"]"));
-        System.out.println("-----------------------------------------");
-    }
 }

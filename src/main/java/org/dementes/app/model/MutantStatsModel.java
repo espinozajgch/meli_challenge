@@ -9,19 +9,20 @@ import javax.persistence.*;
 public class MutantStatsModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mutantstats_id_seq")
+    @SequenceGenerator(name = "mutantstats_id_seq", sequenceName = "mutantstats_id_seq",allocationSize=1)
+    @Column(name = "id", updatable=false)
     private Long id;
 
-    @Column(name = "mutante", nullable = false)
+    @Column(name = "mutante", nullable = true)
     private int countMutantDna;
 
-    @Column(name = "humano", nullable = false)
+    @Column(name = "humano", nullable = true)
     private int countHumanDna;
 
     public MutantStatsModel() {
     }
 
-    @JsonIgnore
     public Long getId() {
         return id;
     }
