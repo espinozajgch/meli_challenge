@@ -83,13 +83,12 @@ public class MutantValidator implements MutantValidatorService {
                         }
                         /**/
                     }
-                    System.out.println("");
                 }
                 if (countMutantSequence >= maxMutantSequence)
                     break;
             }/**/
 
-		LOGGER.info("Fin del recorrido");
+		LOGGER.debug("Fin del recorrido");
 		if(countMutantSequence>=maxMutantSequence) {
             LOGGER.info("Es Muntante por tener {} secuencias iguales", countMutantSequence);
             mutantStatsModel.setCountMutantDna(1);
@@ -105,7 +104,20 @@ public class MutantValidator implements MutantValidatorService {
         }
     }
 
-    public static boolean getBaseNitrogenada(String[] dna,int i, int j,String base_nitrogenada, int sequenceCount, int maxSequenceCount, int posicion){
+    /**
+     *
+     * @param dna : array que contiene los nucleotidos del adn
+     * @param i : posicion del array
+     * @param j : posicion de la base nitrogenada dentro del string de nuecletidos
+     * @param base_nitrogenada : string que contiene la representacion del compuesto organico
+     * @param sequenceCount : int que representa el conteo del tamaño de la secuencia encontrada
+     * @param maxSequenceCount : repesenta el tamaño maximo de la secuencia para determinar si es mutante
+     * @param posicion : int que representa la posicion a buscar (horizontal, vertical, diagonal)
+     * @return
+     */
+
+    @Override
+    public boolean getBaseNitrogenada(String[] dna,int i, int j,String base_nitrogenada, int sequenceCount, int maxSequenceCount, int posicion){
 
         // si lo posicion es vertical, mantego fija la posicion j,
         // en caso contrario (horizontal, diagonal) se aumenta la misma
@@ -137,155 +149,6 @@ public class MutantValidator implements MutantValidatorService {
             }
         }
         return false;
-    }
-
-    /***
-     *
-     * @param dna :
-     * @return
-     */
-    public boolean validatorMatriz(String[][] dna) {
-
-        size = dna.length-1;
-        halfArray = (dna.length/2);
-
-        printMatriz(dna, 0);
-        printMatriz(dna, 1);
-
-        for(int i=0;i<=size;i++){
-            for(int j=0;j<=size;j++){
-
-                System.out.println("["+dna[i][j]+"]");
-                value = dna[i][j];
-
-                if(!value.equalsIgnoreCase("X")) {
-                    if (routeSecuencePattern(dna, value, i, j, 0, 1, countMutantSequence ,halfArray, size)) {
-                        countMutantSequence++;
-                        LOGGER.info("Secuencia Encontrada: ", value);
-                        LOGGER.info("Cantidad de Secuencias: ", countMutantSequence);
-                        printMatriz(dna, 1);
-
-                        if(countMutantSequence>=maxMutantSequence)
-                            break;
-                    }
-                    LOGGER.info("Secuencia No Encontrada");
-                }
-                else{
-                    LOGGER.info("Secuencia Omitida");
-                }
-                System.out.println("");
-            }
-            System.out.println("");
-            if(countMutantSequence>=maxMutantSequence)
-                break;
-
-        }
-        LOGGER.info("Fin del recorrido");
-        printMatriz(dna, 1);
-        if(countMutantSequence>=maxMutantSequence) {
-            LOGGER.info("Es Muntante por tener {} secuencias iguales", countMutantSequence);
-            return true;
-        }
-        else {
-            LOGGER.info("No es Muntante, tiene {} secuencias iguales, minimo {}", countMutantSequence, maxMutantSequence);
-            return false;
-        }
-    }
-
-    /**
-     *  @param posicionMatch : representa la ubicacion (horizontal, vertical, diagonal)
-     *  del match encontrado: 0: sin match, 1: horizontal, 2: vertical, 3: diagonal, 4: diagonal invertida
-     *
-     *  @param contadorMatch: lleva el conteo del tamaño de la secuencia encontrada
-     *
-     *  @param maxMatch: repesenta el tamaño maximo de la secuencia para determinar si es mutante
-     *
-     *  @return boolean
-     *
-     */
-    @Override
-    public boolean routeSecuencePattern(String[][] dna, String valor, int i, int j, int posicionMatch, int contadorMatch, int maxMatch, int mitadArray, int size) {
-
-        /* secuencia horizontal */
-        if((posicionMatch == 0 || posicionMatch == 1)){
-            if(j<size){
-                if(checkSecuencePattern(dna, valor, i, j, i, j+1, 1, contadorMatch, maxMatch , mitadArray, size, (j < mitadArray)))
-                    return true;
-            }
-            contadorMatch = 1;
-        }
-
-        /* secuencia vertical */
-        if((posicionMatch == 0 || posicionMatch == 2)){
-            if(i<size){
-                if(checkSecuencePattern(dna, valor, i, j, i+1, j, 2, contadorMatch, maxMatch , mitadArray, size, (i < mitadArray)))
-                    return true;
-            }
-            contadorMatch = 1;
-        }
-
-        /* secuencia diagonal */
-        if((posicionMatch == 0 || posicionMatch == 3)){
-            if((i<size && j<size)){
-                if(checkSecuencePattern(dna, valor, i, j, i+1, j+1, 3, contadorMatch, maxMatch , mitadArray, size, (j < mitadArray)))
-                    return true;
-            }
-            contadorMatch = 1;
-        }
-
-        /* secuencia diagonal invertida */
-        if((posicionMatch == 0 || posicionMatch == 4)){
-            if((j<=size && i<size) && (j>0)){
-                if(checkSecuencePattern(dna, valor, i, j, i+1, j-1, 4, contadorMatch, maxMatch , mitadArray, size, (j >= mitadArray)))
-                    return true;
-            }
-        }
-
-        return false;
-    }
-
-    /***
-     * @param iplus : posicion i del nuevo valor a comparar
-     * @param jplus : posicion j del nuevo valor a comparar
-     * @param condicion : condicion de validacion para determinar si se puede continur con la busqueda de secuencias
-     *                  dependiendo de la posicion de busqueda (horizontal, vertical, diagona, diagonal invertido
-     * @return boolean
-     **/
-    @Override
-    public boolean checkSecuencePattern(String[][] dna, String valor, int i, int j, int iplus, int jplus, int posicionMatch, int contadorMatch, int maxMatch, int mitadArray, int size, boolean condicion) {
-        if(dna[iplus][jplus].equalsIgnoreCase(valor)) {
-            contadorMatch++;
-            LOGGER.info("Match: {}",contadorMatch);
-
-            if (contadorMatch >= maxMatch) {
-                dna[i][j] = "X";
-                dna[iplus][jplus] = "X";
-                return true;
-            }
-
-            if (maxMatch <= (mitadArray) || (condicion)) {
-                valor = dna[iplus][jplus];
-                if (routeSecuencePattern(dna, valor, iplus, jplus, posicionMatch, contadorMatch, maxMatch, mitadArray, size)) {
-                    dna[i][j] = "X";
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public void printMatriz(String numeros[][], int tipo){
-        for(int i=0;i<=numeros.length-1;i++){
-            for(int j=0;j<=numeros.length-1;j++){
-
-                if(tipo==0)
-                    System.out.print("["+i+","+j+"]");
-                else
-                    System.out.print("["+numeros[i][j]+"]");
-            }
-            System.out.println("");
-        }
-        System.out.println("-----------------------------------------");
     }
 
     public void printArray(String dna[]){

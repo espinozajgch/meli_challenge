@@ -8,8 +8,6 @@ import java.util.Optional;
 
 public interface MutantStatsRepository extends JpaRepository<MutantStatsModel, Integer> {
 
-    MutantStatsModel findById(int id);
-
     @Query(value = "select 1 as id, sum(mutante) mutante, sum(humano) humano from mutantstats", nativeQuery = true)
     Optional<MutantStatsModel> findAllCount();
 
