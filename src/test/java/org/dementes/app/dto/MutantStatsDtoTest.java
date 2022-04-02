@@ -1,26 +1,25 @@
 package org.dementes.app.dto;
 
 import org.dementes.app.model.MutantStatsModel;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
-class MutantStatsDtoTest {
+public class MutantStatsDtoTest {
 
-    MutantStatsDto mutantStatsDto;
+    private MutantStatsDto mutantStatsDto;
 
-    MutantStatsModel mutantStatsModel;
+    private MutantStatsModel mutantStatsModel;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         mutantStatsModel = new MutantStatsModel();
         mutantStatsModel.setId(1L);
         mutantStatsModel.setCountMutantDna(40);
@@ -29,23 +28,22 @@ class MutantStatsDtoTest {
     }
 
     @Test
-    void getCountMutantDna() {
+    public void getCountMutantDna() {
         assertEquals(40,mutantStatsDto.getCountMutantDna());
     }
 
     @Test
-    void setCountHumanDna() {
+    public void setCountHumanDna() {
         assertEquals(100,mutantStatsDto.getCountHumanDna());
     }
 
     @Test
-    void getRatio() {
+    public void getRatio() {
         assertEquals(0.4,mutantStatsDto.getRatio(),"should be 0.4");
         mutantStatsDto.setCountMutantDna(50);
         assertNotEquals(0.4,mutantStatsDto.getRatio(),"should be not equal to 0.4");
         mutantStatsDto.setCountHumanDna(0);
         assertEquals(0,mutantStatsDto.getRatio(), "should be 0");
-
 
     }
 

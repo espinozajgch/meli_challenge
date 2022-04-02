@@ -2,39 +2,35 @@ package org.dementes.app.services.impl;
 
 import org.dementes.app.model.MutantStatsModel;
 import org.dementes.app.repository.MutantStatsRepository;
-import org.dementes.app.services.MutantStatsService;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-
+@RunWith(SpringRunner.class)
 @SpringBootTest
-class MutantStatsTest {
+public class MutantStatsTest {
 
     @InjectMocks
-    MutantStats mutantStats;
+    private MutantStats mutantStats;
 
     @Mock
-    MutantStatsModel mutantStatsModel;
+    private MutantStatsModel mutantStatsModel;
 
     @Mock
-    MutantStatsRepository mutantStatsRepository;
+    private MutantStatsRepository mutantStatsRepository;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         when(mutantStatsModel.getCountHumanDna()).thenReturn(1);
         when(mutantStatsModel.getCountMutantDna()).thenReturn(10);
         when(mutantStatsRepository.findAllCount()).thenReturn(Optional.empty());
@@ -42,7 +38,7 @@ class MutantStatsTest {
     }
 
     @Test
-    void findAllCount() {
+    public void findAllCount() {
         MutantStatsModel mutantStatsAll = mutantStats.findAllCount();
         assertEquals(1,mutantStatsAll.getCountHumanDna());
         assertEquals(10,mutantStatsAll.getCountMutantDna());
@@ -50,7 +46,7 @@ class MutantStatsTest {
     }
 
     @Test
-    void save() {
+    public void save() {
         when(mutantStats.save(mutantStatsModel)).thenReturn(mutantStatsModel);
         assertEquals(mutantStats.save(mutantStatsModel), mutantStatsModel);
     }

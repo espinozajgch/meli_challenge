@@ -2,38 +2,39 @@ package org.dementes.app.services.impl;
 
 import org.dementes.app.model.MutantStatsModel;
 import org.dementes.app.services.MutantStatsService;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest
-class MutantValidatorTest {
+public class MutantValidatorTest {
 
     private String[] dna;
 
     @InjectMocks
-    MutantValidator mutantValidator;
+    private MutantValidator mutantValidator;
 
     @Mock
-    MutantStatsService mutantStatsService;
+    private MutantStatsService mutantStatsService;
 
     @Mock
-    MutantStatsModel mutantStatsModel;
+    private MutantStatsModel mutantStatsModel;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         }
 
     @Test
-    void validator() {
+    public void validator() {
         dna = new String[]{"ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"};
         assertTrue(mutantValidator.validator(dna));
 
