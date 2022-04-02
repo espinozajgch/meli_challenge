@@ -39,4 +39,9 @@ public class MagnetoController {
     public ResponseEntity<MutantStatsDto> dnaStats(){
             return new ResponseEntity(new MutantStatsDto(mutantStatsService.findAllCount()), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/")
+    public ResponseEntity<?> healhcheck(){
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }
