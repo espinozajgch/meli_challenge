@@ -41,6 +41,6 @@ public class MutantStatsDto {
         if(this.countHumanDna>0)
             return this.ratio = (double) this.countMutantDna / this.countHumanDna;
         else
-            return 0;
+            return 100;
     }
 }
