@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost", maxAge = 3600)
 @RestController
 public class MagnetoController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AppApplication.class);
@@ -35,6 +36,7 @@ public class MagnetoController {
             return new ResponseEntity<>((Boolean) null,HttpStatus.FORBIDDEN);
     }
 
+    @CrossOrigin
     @GetMapping(value = "/stats")
     public ResponseEntity<MutantStatsDto> dnaStats(){
             return new ResponseEntity(new MutantStatsDto(mutantStatsService.findAllCount()), HttpStatus.OK);

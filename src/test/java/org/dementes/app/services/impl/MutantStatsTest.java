@@ -3,7 +3,6 @@ package org.dementes.app.services.impl;
 import org.dementes.app.model.MutantStatsModel;
 import org.dementes.app.repository.MutantStatsRepository;
 import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
