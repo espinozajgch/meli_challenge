@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 public class MagnetoController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AppApplication.class);
@@ -39,11 +39,13 @@ public class MagnetoController {
     @CrossOrigin
     @GetMapping(value = "/stats")
     public ResponseEntity<MutantStatsDto> dnaStats(){
+            LOGGER.info("/stats");
             return new ResponseEntity(new MutantStatsDto(mutantStatsService.findAllCount()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/")
     public ResponseEntity<?> healhcheck(){
+        LOGGER.info("");
         return new ResponseEntity(HttpStatus.OK);
     }
 }
